@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -48,35 +49,25 @@ class BottleMessageCRUDServiceTest {
         invalidBottleMessage.setUID("12345");
         invalidBottleMessage.setMessage("");
         invalidBottleMessage.setUsername("testUsername");
-        doNothing().when(bottleMessageRepository).save(invalidBottleMessage);
+        doThrow(RuntimeException.class).when(bottleMessageRepository).save(invalidBottleMessage);
         //when
-        bottleMessageCRUDService.addMessageToDatabase(invalidBottleMessage);
+
         //then
-        verify(bottleMessageRepository, times(0)).save(invalidBottleMessage);
+        assertThrows(RuntimeException.class, () ->  bottleMessageCRUDService.addMessageToDatabase(invalidBottleMessage));
+
     }
 
-    @Test
-    void getRandomMessageInDatabase_ThenReturnRandomBottleMessageInDatabase() {
-        //given
-        BottleMessage bottleMessage = new BottleMessage();
-        bottleMessage.setUID("12345");
-        bottleMessage.setMessage("testMessage");
-        bottleMessage.setUsername("testUsername");
-        doNothing().when(bottleMessageRepository).count();
-        //when(bottleMessageRepository.create)
-        verify(bottleMessageRepository, times(1)).count();
-    }
 
     @Test
     void deleteMessageInDatabase_ThenDeleteMessageInDatabaseUID() {
         //given
         BottleMessage bottleMessage = new BottleMessage();
         bottleMessage.setUID("12345");
-        doNothing().when(bottleMessageRepository).deleteById(bottleMessage.getUID());
+       // doReturn(null).when(bottleMessageRepository).deleteById(bottleMessage.getUID());
         //when
         bottleMessageCRUDService.deleteMessageInDatabase(bottleMessage);
         //then
-        verify(bottleMessageRepository).deleteById(bottleMessage.getUID());
+        verify(bottleMessageRepository, times(1)).deleteById(bottleMessage.getUID());
     }
 
     @Test
@@ -88,7 +79,7 @@ class BottleMessageCRUDServiceTest {
         newBottleMessage.setMessage("testNewMessage");
         newBottleMessage.setUsername("testUsername");
 
-        doNothing().when(bottleMessageRepository).save(newBottleMessage);
+        doReturn(null).when(bottleMessageRepository).save(newBottleMessage);
         //when
         bottleMessageCRUDService.updateMessageInDatabase(newBottleMessage);
         //then

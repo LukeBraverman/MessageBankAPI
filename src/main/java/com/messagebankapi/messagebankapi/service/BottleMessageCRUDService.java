@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 public class BottleMessageCRUDService {
 
-            BottleMessageRepository bottleMessageRepository;
+            private BottleMessageRepository bottleMessageRepository;
 
 
     public void addMessageToDatabase(BottleMessage bottleMessage) {
@@ -32,7 +32,7 @@ public class BottleMessageCRUDService {
 
 
     public void deleteMessageInDatabase(BottleMessage bottleMessage) {
-        bottleMessageRepository.delete(bottleMessage);
+        bottleMessageRepository.deleteById(bottleMessage.getUID());
     }
 
     public void updateMessageInDatabase(BottleMessage bottleMessage) {
