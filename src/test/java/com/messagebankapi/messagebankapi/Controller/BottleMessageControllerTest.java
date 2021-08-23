@@ -84,7 +84,7 @@ class BottleMessageControllerTest {
         testBottleMessage.setUID("12345");
         testBottleMessage.setMessage("testMessage");
         testBottleMessage.setUsername("testUsername");
-        when(bottleMessageCRUDService.getMessageInDatabase_returnAsJson()).thenReturn(testBottleMessageJSON);
+        when(bottleMessageCRUDService.getMessageInDatabase_returnAsJson(testBottleMessage.getUID())).thenReturn(testBottleMessageJSON);
 
         //when
         final MvcResult mvcResult = mockMvc.perform(
@@ -95,7 +95,7 @@ class BottleMessageControllerTest {
 
         //then
         assertEquals(testBottleMessageJSON,content,"Response body not as expected");
-        verify(bottleMessageCRUDService,times(1)).getMessageInDatabase_returnAsJson();
+        verify(bottleMessageCRUDService,times(1)).getMessageInDatabase_returnAsJson(testBottleMessage.getUID());
     }
 
     @Test
