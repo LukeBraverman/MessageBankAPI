@@ -3,22 +3,28 @@ package com.messagebankapi.messagebankapi.service;
 
 import com.messagebankapi.messagebankapi.model.BottleMessage;
 import com.messagebankapi.messagebankapi.repository.BottleMessageRepository;
+import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 class BottleMessageCRUDServiceTest {
-    @InjectMocks
-    private BottleMessageCRUDService bottleMessageCRUDService;
+
 
     @Mock
     private BottleMessageRepository bottleMessageRepository;
 
+    @InjectMocks
+    private BottleMessageCRUDService bottleMessageCRUDService;
     @BeforeEach
     void setUp() {
+
     }
 
     @Test
@@ -28,7 +34,7 @@ class BottleMessageCRUDServiceTest {
         bottleMessage.setUID("12345");
         bottleMessage.setMessage("testMessage");
         bottleMessage.setUsername("testUsername");
-        doNothing().when(bottleMessageRepository).save(bottleMessage);
+        doReturn(null).when(bottleMessageRepository).save(bottleMessage);
         //when
         bottleMessageCRUDService.addMessageToDatabase(bottleMessage);
         //then
