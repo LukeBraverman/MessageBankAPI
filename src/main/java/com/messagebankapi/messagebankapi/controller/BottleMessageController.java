@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 
 @RestController
 @RequestMapping(value = "/BMAPI")
@@ -27,11 +29,10 @@ public class BottleMessageController {
             "The values are then stored in a postgres database.")
     @PostMapping("/postMessage")
     public ResponseEntity<String> POSTMessageToDatabase(@RequestBody BottleMessage bottleMessage) {
-        if (!isJsonMessageValid.isJsonBottleMessageValid(bottleMessage)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("One of more fields not filled: 'UID','message','Username'.");
-        }
+        String randomUID = UUID.randomUUID().toString();
+        bottleMessage.setUID(randomUID);
         bottleMessageCRUDService.addMessageToDatabase(bottleMessage);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Posted message to database");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Posted message to database with uid " + randomUID);
     }
 
     @ApiOperation(value = "Accepts a Json string that has the same fields as the UIDtoFindMessage model object." +
@@ -43,7 +44,7 @@ public class BottleMessageController {
         if (!isJsonMessageValid.isUIDtoFindAMessageValid(uiDtoFindAMessage)) {
             return String.valueOf(ResponseEntity.status(HttpStatus.BAD_REQUEST));
         }
-        String bottleMessageAsJSON = bottleMessageCRUDService.getMessageInDatabase_returnAsJson(uiDtoFindAMessage.getUID());
+        String bottleMessageAsJSON = bottleMessageCRUDService.getMessageInDatabase_returnAsJson(uiDtoFindAMessage.getMessagecode());
         return bottleMessageAsJSON;
     }
 

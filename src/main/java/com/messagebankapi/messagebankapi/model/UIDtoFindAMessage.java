@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class UIDtoFindAMessage {
-    String UID;
+    String messagecode;
 }

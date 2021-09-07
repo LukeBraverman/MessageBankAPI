@@ -1,6 +1,5 @@
 package com.messagebankapi.messagebankapi.service;
 
-import com.messagebankapi.messagebankapi.controller.BottleMessageController;
 import com.messagebankapi.messagebankapi.model.BottleMessage;
 import com.messagebankapi.messagebankapi.model.UIDtoFindAMessage;
 import lombok.AllArgsConstructor;
@@ -35,7 +34,7 @@ public class IsJsonMessageValid {
     public boolean isUIDtoFindAMessageValid(UIDtoFindAMessage UID) {
         boolean valid = true;
 
-        if (UID.getUID().isEmpty()) {
+        if (UID.getMessagecode().isEmpty()) {
             valid = false;
         }
         return valid;

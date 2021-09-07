@@ -25,9 +25,7 @@ public class BottleMessageCRUDService {
         Optional<BottleMessage> bottleMessage = bottleMessageRepository.findById(UID);
 
 
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String jsonMessageFromRepository = ow.writeValueAsString(bottleMessage);
-        return jsonMessageFromRepository;
+        return bottleMessage.toString();
     }
 
 
